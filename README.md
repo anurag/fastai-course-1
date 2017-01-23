@@ -14,6 +14,7 @@ The container comes with:
 * PIL
 * Jupyter
 * bcolz
+* kaggle-cli
 * ...all other libraries needed for the course.
 
 ## Usage

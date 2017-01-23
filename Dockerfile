@@ -46,7 +46,7 @@ RUN conda install -y --quiet python=$PYTHON_VERSION && \
   conda install -y --quiet notebook h5py Pillow ipywidgets scikit-learn \
   matplotlib pandas bcolz sympy && \
   pip install --upgrade pip && \
-  pip install tensorflow-gpu && \
+  pip install tensorflow-gpu kaggle-cli && \
   pip install git+git://github.com/fchollet/keras.git && \
   conda clean -tipsy
 
