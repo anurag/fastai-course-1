@@ -36,6 +36,12 @@ RUN useradd -m -s /bin/bash -N -u $USERID $USERNAME && \
 
 USER $USERNAME
 
+WORKDIR /home/$USERNAME
+
+COPY .theanorc .
+COPY keras.json .keras/
+COPY jupyter_notebook_config.py .jupyter/
+
 RUN conda install -y --quiet python=$PYTHON_VERSION && \
   conda install -y --quiet notebook h5py Pillow ipywidgets scikit-learn \
   matplotlib pandas bcolz sympy && \
@@ -52,5 +58,9 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA_ROOT/lib64
 # Jupyter
 EXPOSE 8888
 
+# Clone fast.ai source
+RUN git clone -q https://github.com/fastai/courses.git fastai-courses
+WORKDIR /home/$USERNAME/fastai-courses/deeplearning1/nbs
+
 ENTRYPOINT ["/tini", "--"]
-CMD jupyter notebook
+CMD jupyter notebook --ip=0.0.0.0 --port=8888
