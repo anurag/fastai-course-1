@@ -44,7 +44,7 @@ COPY jupyter_notebook_config.py .jupyter/
 
 RUN conda install -y --quiet python=$PYTHON_VERSION && \
   conda install -y --quiet notebook h5py Pillow ipywidgets scikit-learn \
-  matplotlib pandas bcolz sympy && \
+  matplotlib pandas bcolz sympy scikit-image && \
   pip install --upgrade pip && \
   pip install tensorflow-gpu kaggle-cli && \
   pip install git+git://github.com/fchollet/keras.git && \
