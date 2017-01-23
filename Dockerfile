@@ -1,0 +1,56 @@
+FROM nvidia/cuda:8.0-cudnn5-devel-ubuntu16.04
+
+MAINTAINER Anurag Goel <deeprig@anur.ag>
+
+ARG PYTHON_VERSION=2.7
+ARG CONDA_PYTHON_VERSION=2
+ARG CONDA_VERSION=4.2.12
+ARG CONDA_DIR=/opt/conda
+ARG TINI_VERSION=v0.13.2
+ARG USERNAME=deeprig
+ARG USERID=1000
+
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends git wget ffmpeg && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
+
+# Conda
+ENV PATH $CONDA_DIR/bin:$PATH
+
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && \
+  wget --quiet https://repo.continuum.io/miniconda/Miniconda$CONDA_PYTHON_VERSION-$CONDA_VERSION-Linux-x86_64.sh -O /tmp/miniconda.sh && \
+  echo 'export PATH=$CONDA_DIR/bin:$PATH' > /etc/profile.d/conda.sh && \
+  /bin/bash /tmp/miniconda.sh -b -p $CONDA_DIR && \
+  rm -rf /tmp/* && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
+
+# Tini makes notebook kernels work
+ADD https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini /tini
+RUN chmod +x /tini
+
+# user's home dir should be mapped from EFS
+RUN useradd -m -s /bin/bash -N -u $USERID $USERNAME && \
+  chown $USERNAME $CONDA_DIR -R
+
+USER $USERNAME
+
+RUN conda install -y --quiet python=$PYTHON_VERSION && \
+  conda install -y --quiet notebook h5py Pillow ipywidgets scikit-learn \
+  matplotlib pandas bcolz sympy && \
+  pip install --upgrade pip && \
+  pip install tensorflow-gpu && \
+  pip install git+git://github.com/fchollet/keras.git && \
+  conda clean -tipsy
+
+ENV CUDA_HOME=/usr/local/cuda
+ENV CUDA_ROOT=$CUDA_HOME
+ENV PATH=$PATH:$CUDA_ROOT/bin:$HOME/bin
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA_ROOT/lib64
+
+# Jupyter
+EXPOSE 8888
+
+ENTRYPOINT ["/tini", "--"]
+CMD jupyter notebook
