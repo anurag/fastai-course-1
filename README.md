@@ -49,7 +49,7 @@ docker run -it -p 8888:8888 deeprig/fastai-course-1
 # (on your local machine) get the IP of the new machine:
 docker-machine ip fastai-p2
 ```
-Open http://<ip_from_above>:8888 in your browser to view notebooks.
+Open http://[NEW_MACHINE_IP]:8888 in your browser to view notebooks.
 
 ### CPU instance
 ```bash
@@ -74,4 +74,4 @@ docker run -it -p 8888:8888 deeprig/fastai-course-1
 # (on your local machine) get the IP of the new machine:
 docker-machine ip fastai-t2
 ```
-Open http://<ip_from_above>:8888 in your browser to view notebooks.
+Open http://[NEW_MACHINE_IP]:8888 in your browser to view notebooks.
