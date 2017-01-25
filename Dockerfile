@@ -11,7 +11,7 @@ ARG USERNAME=deeprig
 ARG USERID=1000
 
 RUN apt-get update && \
-  apt-get install -y --no-install-recommends git wget ffmpeg && \
+  apt-get install -y --no-install-recommends git wget ffmpeg unzip && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
