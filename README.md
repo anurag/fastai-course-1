@@ -44,7 +44,7 @@ aws ec2 authorize-security-group-ingress --group-name docker-machine --port 8888
 docker-machine ssh fastai-p2
 
 # (on the remote machine fastai-p2) run Jupyter interactively
-docker run -it -p 8888:8888 deeprig/fastai-course-1
+nvidia-docker run -it -p 8888:8888 deeprig/fastai-course-1
 
 # (on your local machine) get the IP of the new machine:
 docker-machine ip fastai-p2
