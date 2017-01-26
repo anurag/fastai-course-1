@@ -7,11 +7,11 @@ ARG CONDA_PYTHON_VERSION=2
 ARG CONDA_VERSION=4.2.12
 ARG CONDA_DIR=/opt/conda
 ARG TINI_VERSION=v0.13.2
-ARG USERNAME=deeprig
+ARG USERNAME=docker
 ARG USERID=1000
 
 RUN apt-get update && \
-  apt-get install -y --no-install-recommends git wget ffmpeg unzip && \
+  apt-get install -y --no-install-recommends git wget ffmpeg unzip sudo && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
@@ -31,8 +31,10 @@ ADD https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini /tini
 RUN chmod +x /tini
 
 # user's home dir should be mapped from EFS
-RUN useradd -m -s /bin/bash -N -u $USERID $USERNAME && \
-  chown $USERNAME $CONDA_DIR -R
+RUN useradd --create-home -s /bin/bash --no-user-group -u $USERID $USERNAME && \
+  chown $USERNAME $CONDA_DIR -R && \
+  adduser $USERNAME sudo && \
+  echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 USER $USERNAME
 

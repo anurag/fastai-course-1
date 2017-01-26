@@ -22,10 +22,24 @@ The container comes with:
 docker run -it -p 8888:8888 deeprig/fastai-course-1
 ```
 
+## Data management
+Docker containers are designed to be ephemeral, so if you need persistent data for Kaggle competitions you should download it on your local machine and [mount the directory as a host volume](https://docs.docker.com/engine/tutorials/dockervolumes/#/mount-a-host-directory-as-a-data-volume) when you run the container.
 
+For example, if your data directory is at `/Users/yourname/data`, start your container with this command:
 
+```bash
+docker run -it -p 8888:8888 -v /Users/yourname/data:/home/docker/data deeprig/fastai-course-1
+```
+
+Your local data directory will now be visible in the container at `/home/docker/data`.
+
+## Installing packages
+All packages should ideally be part of the Dockerfile. If something is missing, please open an issue or submit a PR to update the Dockerfile. If you need to install something as a workaround, follow the steps below:
+1. Get a shell into the running container with `docker exec -it <container_name> /bin/bash`
+2. `sudo apt-get update && sudo apt-get install package_name`
 
 ## Running on AWS
+I've build preconfigured AMIs for `us-west-2` that include Docker and nvidia-docker (for p2 instances). You can spin up instances based on them using the commands below:
 ### GPU instance
 ```bash
 # spin up a p2.xlarge instance
