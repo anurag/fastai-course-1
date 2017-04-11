@@ -18,8 +18,15 @@ The container comes with:
 * ...all other libraries needed for the course.
 
 ## Usage
+
+#### CPU Only
 ```bash
 docker run -it -p 8888:8888 deeprig/fastai-course-1
+```
+
+#### With GPU
+```bash
+nvidia-docker run -it -p 8888:8888 deeprig/fastai-course-1
 ```
 
 ## Data management
