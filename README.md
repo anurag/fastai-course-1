@@ -46,7 +46,8 @@ All packages should ideally be part of the Dockerfile. If something is missing, 
 2. `sudo apt-get update && sudo apt-get install package_name`
 
 ## Running on AWS
-I've build preconfigured AMIs for `us-west-2` that include Docker and nvidia-docker (for p2 instances). You can spin up instances based on them using the commands below:
+You can also use `docker-machine` and preconfigured AMIs for `us-west-2` using the commands below.
+
 ### GPU instance
 ```bash
 # spin up a p2.xlarge instance
