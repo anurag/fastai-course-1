@@ -40,6 +40,8 @@ docker run -it -p 8888:8888 -v /Users/yourname/data:/home/docker/data deeprig/fa
 
 Your local data directory will now be visible in the container at `/home/docker/data`.
 
+**Don't forget to change the path to the data folder in your notebooks as well!**
+
 ## Installing packages
 All packages should ideally be part of the Dockerfile. If something is missing, please open an issue or submit a PR to update the Dockerfile. If you need to install something as a workaround, follow the steps below:
 1. Get a shell into the running container with `docker exec -it <container_name> /bin/bash`
