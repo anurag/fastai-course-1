@@ -47,9 +47,9 @@ COPY jupyter_notebook_config.py .jupyter/
 RUN conda install -y --quiet python=$PYTHON_VERSION && \
   conda install -y --quiet notebook h5py Pillow ipywidgets scikit-learn \
   matplotlib pandas bcolz sympy scikit-image mkl-service && \
-  pip install --upgrade pip && \
-  pip install tensorflow-gpu kaggle-cli && \
-  pip install git+git://github.com/fchollet/keras.git@1.1.2 && \
+  pip install --upgrade pip --ignore-installed && \
+  pip install tensorflow-gpu kaggle-cli --ignore-installed && \
+  pip install git+git://github.com/fchollet/keras.git@1.1.2 --ignore-installed && \
   conda clean -tipsy
 
 ENV CUDA_HOME=/usr/local/cuda
